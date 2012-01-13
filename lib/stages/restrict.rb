@@ -1,32 +1,24 @@
 module Stages
   class Restrict < Stage
-    def initialize(name = :default)
+    alias :super_continue :continue
+    
+    def initialize
       @open = true
-      @name = name
       super()
     end
     
-    def continue(name = :default)
-      if name == @name
-        @open = true
-      else
-        super.continue(name)
-      end
+    def continue
+      @open = true   
     end
     
     def process
       while value = input
-        if @open
-          @open = false
-          handle_value value
-        else
-          while !@open
-            handle_value nil
-          end
-          @open = false
-          handle_value value
+        while !@open
+          handle_value nil
         end
+        @open = false
+        handle_value value
       end
     end
   end
-end 
+end

@@ -53,6 +53,20 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal([0, 4], result)
   end
   
+  test 'each_input' do
+    pipeline = EachElement.new([[1, 2], [3, 4]]) | EachInput.new 
+    result = []
+    while v = pipeline.run
+      result << v
+    end
+    assert_equal([1, 2, 3, 4], result)
+  end
+  
+  #test 'resume' do
+  #  pipeline = Evens.new | Restrict.new | Map.new{ |x| x*2} | Resume.new
+  #  result = pipeline.run
+  #  assert_equal({ 0 => []})
+  #end
   
   def sing
     { :do => 'doe a deer a female deer',

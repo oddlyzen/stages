@@ -4,7 +4,7 @@ module Stages
       @things = things
       super()
     end
-    
+        
     def process 
       @things.each do |thing|
         output thing 

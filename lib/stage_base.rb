@@ -4,7 +4,11 @@ module Stages
     
     def initialize(&block)
       @block = block
-      @fiber_delegate = Fiber.new do
+      initialize_loop
+    end
+    
+    def initialize_loop
+       @fiber_delegate = Fiber.new do
         process
         die
       end
