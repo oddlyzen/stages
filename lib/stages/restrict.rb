@@ -8,7 +8,10 @@ module Stages
     end
     
     def continue
-      @open = true   
+      @open = true
+      r = @last_value
+      @last_value = nil
+      r
     end
     
     def process
@@ -17,6 +20,7 @@ module Stages
           handle_value nil
         end
         @open = false
+        @last_value = value
         handle_value value
       end
     end

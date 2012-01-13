@@ -19,10 +19,7 @@ module Stages
     end
     
     def continue
-      @fiber_delegate = Fiber.new do
-        process
-        die
-      end
+      initialize_loop
       @source.continue
     end
     
