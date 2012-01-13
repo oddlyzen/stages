@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "stages"
-  s.version = "2012.1.1.0"
+  s.version = "0.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nathan Acuff", "Justin Hill", "Matt Brown", "Kyle Prifogle"]
@@ -16,12 +16,22 @@ Gem::Specification.new do |s|
     "README"
   ]
   s.files = [
+    ".autotest",
     "Gemfile",
     "Gemfile.lock",
     "README",
     "Rakefile",
     "VERSION",
+    "lib/stage_base.rb",
+    "lib/stages.rb",
+    "lib/stages/each_element.rb",
+    "lib/stages/evens.rb",
+    "lib/stages/hash_lookup.rb",
+    "lib/stages/map.rb",
+    "lib/stages/multiples_of.rb",
+    "lib/stages/select.rb",
     "stages.gemspec",
+    "test/helper.rb",
     "test/test_pipeline.rb",
     "test/test_stages.rb"
   ]
