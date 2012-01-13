@@ -19,7 +19,7 @@ We have included some general purpose stages, map and select, which can accompli
 
 ```ruby
 pipeline = Evens.new | Map.new{ |x| x * 3} | Select.new{ |x| x % 7 == 0}
-(0..2).map{ |x| pipeline.run } #[0, 42, 84]}
+3.times{ |x| pipeline.run } #[0, 42, 84]}
 ```
 
 Writing New Stages
