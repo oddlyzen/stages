@@ -1,0 +1,10 @@
+Autotest.add_hook(:initialize)  do |at|
+  %w{.git .svn .hg .swp .DS_Store ._* tmp}.each do |exception|
+    at.add_exception(exception)
+  end
+
+  at.add_mapping(%r%^dataprocessing/pipeline(/stages)?/(.*).rb$%, true) do |filename, _|
+    ['test/test_pipeline.rb', 'test/test_stages.rb']
+  end   
+
+end

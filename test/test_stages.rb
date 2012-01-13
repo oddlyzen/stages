@@ -1,6 +1,4 @@
 require 'helper'
-Dir["#{File.dirname(__FILE__)}/../dataprocessing/pipeline/*.rb"].each {  |file| require file.gsub(".rb", "")}
-Dir["#{File.dirname(__FILE__)}/../dataprocessing/pipeline/stages/*.rb"].each { |file| require file.gsub(".rb", "")}
 include Pipeline
 
 class TestStages < MiniTest::Unit::TestCase
@@ -41,14 +39,6 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal(['doe a deer a female deer', 'ray a drop of golden sun', 'me a name I call myself'], result)
   end 
   
-  test 'stop' do
-    pipeline = EachElement.new([1, 2, nil, 3])
-    while v = pipeline.run
-      puts v
-    end
-    
-    
-  end  
   
   def sing
     { :do => 'doe a deer a female deer',

@@ -1,12 +1,24 @@
 GEM
   remote: http://gemcutter.org/
   specs:
+    ZenTest (4.6.2)
+    ansi (1.4.1)
+    git (1.2.5)
+    jeweler (1.6.4)
+      bundler (~> 1.0)
+      git (>= 1.2.5)
+      rake
     minitest (2.10.0)
     rake (0.9.2)
+    turn (0.8.2)
+      ansi (>= 1.2.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  ZenTest
+  jeweler
   minitest
   rake (= 0.9.2)
+  turn

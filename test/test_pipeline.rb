@@ -1,6 +1,4 @@
 require 'helper'
-Dir["#{File.dirname(__FILE__)}/../dataprocessing/pipeline/*.rb"].each {  |file| require file.gsub(".rb", "")}
-Dir["#{File.dirname(__FILE__)}/../dataprocessing/pipeline/stages/*.rb"].each { |file| require file.gsub(".rb", "")}
 include Pipeline
 
 class TestPipeline < MiniTest::Unit::TestCase
@@ -29,11 +27,16 @@ class TestPipeline < MiniTest::Unit::TestCase
       assert false
     rescue Exception => e
     end
+  end   
+       
+  test 'nil kills it' do
+    pipeline = EachElement.new([1, 2, nil, 3])
+    result = []
+    while v = pipeline.run
+      result << v
+    end
+    assert_equal([1, 2], result)    
   end  
-  
-  test 'splitter splits' do
-    
-  end
   
   def sing
     { :do => 'doe a deer a female deer',
