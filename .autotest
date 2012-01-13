@@ -3,7 +3,7 @@ Autotest.add_hook(:initialize)  do |at|
     at.add_exception(exception)
   end
 
-  at.add_mapping(%r%^dataprocessing/pipeline(/stages)?/(.*).rb$%, true) do |filename, _|
+  at.add_mapping(%r%^lib(/stages)?/(.*).rb$%, true) do |filename, _|
     ['test/test_pipeline.rb', 'test/test_stages.rb']
   end   
 

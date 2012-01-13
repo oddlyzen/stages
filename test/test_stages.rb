@@ -38,7 +38,21 @@ class TestStages < MiniTest::Unit::TestCase
     result = (0..2).map { pipeline.run }
     assert_equal(['doe a deer a female deer', 'ray a drop of golden sun', 'me a name I call myself'], result)
   end   
-
+  
+  test 'restrict' do
+    pipeline = Evens.new | Restrict.new | Map.new{ |x| x * 2}
+    result = []
+    while v = pipeline.run
+      result << v
+    end
+    assert_equal([0], result)
+    pipeline.continue
+    while v = pipeline.run
+      result << v
+    end
+    assert_equal([0, 4], result)
+  end
+  
   
   def sing
     { :do => 'doe a deer a female deer',

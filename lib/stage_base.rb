@@ -11,7 +11,15 @@ module Stages
     end
     
     def run
-        @fiber_delegate.resume    
+      @fiber_delegate.resume    
+    end
+    
+    def continue
+      @fiber_delegate = Fiber.new do
+        process
+        die
+      end
+      @source.continue
     end
     
     def die
