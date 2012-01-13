@@ -1,4 +1,4 @@
-module Pipeline
+module Stages
   class Evens < Stage
     def process 
       value = 0

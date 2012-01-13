@@ -1,5 +1,5 @@
 require 'helper'
-include Pipeline
+include Stages
 
 class TestPipeline < MiniTest::Unit::TestCase
   
@@ -16,6 +16,12 @@ class TestPipeline < MiniTest::Unit::TestCase
   
   test 'pipeline pipe syntax works' do
     pipeline = Evens.new | MultiplesOf.new(3) | MultiplesOf.new(7)
+    result = (0..2).map{ |x| pipeline.run }
+    assert_equal([0, 42, 84], result)
+  end
+  
+  test 'block stages work' do
+    pipeline = Evens.new | Map.new{ |x| x * 3} | Select.new{ |x| x % 7 == 0}
     result = (0..2).map{ |x| pipeline.run }
     assert_equal([0, 42, 84], result)
   end

@@ -1,5 +1,5 @@
 require 'helper'
-include Pipeline
+include Stages
 
 class TestStages < MiniTest::Unit::TestCase
   
@@ -37,8 +37,7 @@ class TestStages < MiniTest::Unit::TestCase
     pipeline = EachElement.new([:do, :re, :mi]) | HashLookup.new(sing)
     result = (0..2).map{ |x| pipeline.run }
     assert_equal(['doe a deer a female deer', 'ray a drop of golden sun', 'me a name I call myself'], result)
-  end 
-  
+  end   
   
   def sing
     { :do => 'doe a deer a female deer',

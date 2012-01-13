@@ -1,4 +1,4 @@
-module Pipeline
+module Stages
   class MultiplesOf < Stage
     def initialize(factor)
       @factor = factor

@@ -1,4 +1,4 @@
-module Pipeline
+module Stages
   class HashLookup < Stage
     def initialize(things)
       @things = things

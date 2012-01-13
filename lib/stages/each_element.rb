@@ -1,4 +1,4 @@
-module Pipeline
+module Stages
   class EachElement < Stage
     def initialize(things)
       @things = things

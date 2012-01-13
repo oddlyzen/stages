@@ -1,4 +1,4 @@
-module Pipeline
+module Stages
   class Stage
     attr_accessor :source
     
