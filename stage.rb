@@ -6,11 +6,18 @@ module Pipeline
       @block = block
       @fiber_delegate = Fiber.new do
         process
+        die
       end
     end
     
     def run
-      @fiber_delegate.resume
+        @fiber_delegate.resume    
+    end
+    
+    def die
+      loop do
+        output nil
+      end
     end
     
     def process

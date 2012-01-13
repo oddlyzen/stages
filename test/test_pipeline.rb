@@ -1,14 +1,11 @@
-require 'bundler/setup'
-Bundler.require(:default, :test)
-require 'minitest/unit'
-Dir["#{File.dirname(__FILE__)}/../*.rb"].each {  |file| require file.gsub(".rb", "")}
-Dir["#{File.dirname(__FILE__)}/../stages/*.rb"].each { |file| require file.gsub(".rb", "")}
+require 'helper'
+Dir["#{File.dirname(__FILE__)}/../dataprocessing/pipeline/*.rb"].each {  |file| require file.gsub(".rb", "")}
+Dir["#{File.dirname(__FILE__)}/../dataprocessing/pipeline/stages/*.rb"].each { |file| require file.gsub(".rb", "")}
 include Pipeline
 
-MiniTest::Unit.autorun
 class TestPipeline < MiniTest::Unit::TestCase
   
-  def test_basic
+  test 'simple basic pipeline' do
     evens = Evens.new
     mx3 = MultiplesOf.new(3)
     mx7 = MultiplesOf.new(7) 
@@ -19,21 +16,32 @@ class TestPipeline < MiniTest::Unit::TestCase
     assert_equal([0, 42, 84], result)
   end
   
-  def test_pipe_syntax
+  test 'pipeline pipe syntax works' do
     pipeline = Evens.new | MultiplesOf.new(3) | MultiplesOf.new(7)
     result = (0..2).map{ |x| pipeline.run }
     assert_equal([0, 42, 84], result)
   end
   
-  def test_block_stages
-    pipeline = Evens.new | Map.new{ |val| val * 3} | Map.new{ |val| val + 1}
-    result = (0..2).map{ |x| pipeline.run }
-    assert_equal([1, 7, 13], result)
+  test 'exceptions do what you expect' do
+    begin
+      pipeline = Evens.new | Map.new{ |val| throw Exception.new "exception!" } | Select.new{ |v| v > 2}
+      pipeline.run
+      assert false
+    rescue Exception => e
+    end
+  end  
+  
+  test 'splitter splits' do
+    
   end
   
-  def test_block_select
-    pipeline = Evens.new | Map.new{ |val| val * 3} | Select.new{ |val| val > 6} | Map.new{ |v| v+1}
-    result = (0..2).map{ |x| pipeline.run }
-    assert_equal([13, 19, 25], result)
+  def sing
+    { :do => 'doe a deer a female deer',
+      :re => 'ray a drop of golden sun',
+      :mi => 'me a name I call myself',
+      :fa => 'far a long long way to run',
+      :so => 'A needle pulling thread',
+      :la => 'a note to follow so',
+      :ti => 'a drink with jam and bread'}
   end
 end

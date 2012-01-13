@@ -1,4 +1,4 @@
-require "#{File.dirname(__FILE__)}/stage"
+require "#{File.dirname(__FILE__)}/../stage"
 
 module Pipeline
   class Map < Stage    
