@@ -5,31 +5,39 @@
 
 Gem::Specification.new do |s|
   s.name = "stages"
-  s.version = "0.0.1"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Nathan Acuff", "Justin Hill", "Matt Brown", "Kyle Prifogle"]
-  s.date = "2012-01-13"
+  s.authors = ["The Justice Eight"]
+  s.date = "2012-01-14"
   s.description = "pipeline builder"
   s.email = "support@igodigital.com"
   s.extra_rdoc_files = [
-    "README"
+    "README.md"
   ]
   s.files = [
     ".autotest",
     "Gemfile",
     "Gemfile.lock",
-    "README",
+    "README.md",
     "Rakefile",
     "VERSION",
+    "examples/sing.rb",
+    "examples/sing_subpipes.rb",
     "lib/stage_base.rb",
     "lib/stages.rb",
+    "lib/stages/count.rb",
     "lib/stages/each_element.rb",
+    "lib/stages/each_input.rb",
     "lib/stages/evens.rb",
     "lib/stages/hash_lookup.rb",
     "lib/stages/map.rb",
     "lib/stages/multiples_of.rb",
+    "lib/stages/restrict.rb",
+    "lib/stages/resume.rb",
+    "lib/stages/resume_count.rb",
     "lib/stages/select.rb",
+    "lib/stages/sub_stage.rb",
     "stages.gemspec",
     "test/helper.rb",
     "test/test_pipeline.rb",
