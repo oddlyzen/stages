@@ -20,7 +20,7 @@ module Stages
     
     def continue
       initialize_loop
-      @source.continue
+      @source.continue if @source
     end
     
     def die
@@ -47,9 +47,33 @@ module Stages
       Fiber.yield value
     end
       
-    def |(other=nil)
-      other.source = self
+    def |(other)
+      other.root_source.source = self
       other
+    end
+    
+    def root_source
+      source.nil? ? self : source.root_source
+    end
+    
+    def drop_leftmost!
+      if @source.end?
+        @source = nil
+      else
+        @source.drop_leftmost!
+      end
+    end
+    
+    def end?
+      @source.nil?
+    end
+    
+    def length
+      if source
+        source.length + 1
+      else
+        1
+      end
     end
   end  
 end 

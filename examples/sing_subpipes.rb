@@ -14,32 +14,18 @@ def sing
 end
 
 def setup_pipeline
-  generator = EachElement.new sing.keys
-  loop = Restrict.new
   get_lyric = HashLookup.new sing
   each_character = EachInput.new{ |x| x.chars }
   whitespace = Select.new{ |x| x != ' '}
-  pool = ResumeCount.new
+  sub_pipeline = get_lyric | each_character | whitespace 
+  process_elements = SubStage.new(sub_pipeline)
+  
+  generator = EachElement.new sing.keys
   subtotals = Map.new { |x| x.values.first }
   iterator = EachInput.new
-  aggregator = SuperAggregator.new
+  count = Count.new
   
-  generator | loop | get_lyric | each_character | whitespace | pool | subtotals | iterator  |  aggregator
-end
-
-class SuperAggregator < Stage
-  def initialize
-    @accumulator = Hash.new{ |h,k| h[k] = 0}
-    super()
-  end
-  
-  def handle_value(value)
-    @accumulator[value[0]] += value[1]
-    while v = input
-      @accumulator[v[0]] += v[1]
-    end
-    output @accumulator
-  end
+  generator | process_elements | subtotals | iterator | count
 end
 
 puts setup_pipeline.run.inspect

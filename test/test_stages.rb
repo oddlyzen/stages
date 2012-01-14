@@ -78,7 +78,14 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal({ 'foo' => { :f => 1, :o => 2}}, result)
   end
   
-
+  test 'substage instead of resume' do
+    sub = EachInput.new{ |x| x.chars } | Map.new{ |x| x.to_sym} | Count.new
+    pipeline = EachElement.new(%w(foo bar)) | SubStage.new(sub)
+    result = pipeline.run
+    assert_equal({ 'foo' => { :f => 1, :o => 2}}, result)
+    result = pipeline.run
+    assert_equal({ 'bar' => { :b => 1, :a => 1, :r => 1}}, result)
+  end
   
   def sing
     { :do => 'doe a deer a female deer',
