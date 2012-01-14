@@ -17,12 +17,12 @@ def setup_pipeline
   get_lyric = HashLookup.new sing
   each_character = EachInput.new{ |x| x.chars }
   trim_whitespace = Select.new{ |x| x != ' '}
-  count_letters_in_line = SubStage.new(get_lyric | each_character | trim_whitespace)
+  letters_in_each_line = SubStage.new(get_lyric | each_character | trim_whitespace)
   
   each_note = EachElement.new sing.keys
   count_everything = Count.new
   
-  each_note | count_letters_in_line | count_everything
+  each_note | letters_in_each_line | count_everything
 end
 
 puts setup_pipeline.run.inspect
