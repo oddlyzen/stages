@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "stages"
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["The Justice Eight"]
@@ -23,17 +23,15 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "examples/sing.rb",
+    "examples/sing_custom_stages.rb",
     "examples/sing_subpipes.rb",
     "lib/stage_base.rb",
     "lib/stages.rb",
     "lib/stages/count.rb",
-    "lib/stages/each_element.rb",
-    "lib/stages/each_input.rb",
+    "lib/stages/each.rb",
     "lib/stages/emit.rb",
     "lib/stages/evens.rb",
-    "lib/stages/hash_lookup.rb",
     "lib/stages/map.rb",
-    "lib/stages/multiples_of.rb",
     "lib/stages/restrict.rb",
     "lib/stages/resume.rb",
     "lib/stages/resume_count.rb",
