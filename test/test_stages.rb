@@ -78,13 +78,7 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal({ 'foo' => { :f => 1, :o => 2}}, result)
   end
   
-  test 'complex restrict' do
-    gen = EachElement.new([{ :a => 1}, { :a => 2}])
-    pipeline = gen | EachInput.new | Map.new{ |x| puts "x: #{x}"; x}| Restrict.new | Map.new{ |x| puts x; x} | Resume.new
-    while pipeline.run
-      puts 'end'
-    end
-  end
+
   
   def sing
     { :do => 'doe a deer a female deer',
