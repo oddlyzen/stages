@@ -14,14 +14,14 @@ def sing
 end
 
 def setup_pipeline
-  generator = EachElement.new sing.keys
+  generator = Each.new sing.keys
   loop = Restrict.new
   get_lyric = HashLookup.new sing
-  each_character = EachInput.new{ |x| x.chars }
+  each_character = Each.new{ |x| x.chars }
   whitespace = Select.new{ |x| x != ' '}
   pool = ResumeCount.new
   subtotals = Map.new { |x| x.values.first }
-  iterator = EachInput.new
+  iterator = Each.new
   aggregator = SuperAggregator.new
   
   generator | loop | get_lyric | each_character | whitespace | pool | subtotals | iterator  |  aggregator

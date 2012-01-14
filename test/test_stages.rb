@@ -28,13 +28,13 @@ class TestStages < MiniTest::Unit::TestCase
   end
   
   test 'each_element' do
-    pipeline = EachElement.new([1, 2, 3])
+    pipeline = Each.new([1, 2, 3])
     result = (0..2).map{ pipeline.run }
     assert_equal([1, 2, 3], result)
   end
   
   test 'hash_lookup' do
-    pipeline = EachElement.new([:do, :re, :mi]) | HashLookup.new(sing)
+    pipeline = Each.new([:do, :re, :mi]) | HashLookup.new(sing)
     result = (0..2).map { pipeline.run }
     assert_equal(['doe a deer a female deer', 'ray a drop of golden sun', 'me a name I call myself'], result)
   end   
@@ -53,17 +53,8 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal([0, 4], result)
   end
   
-  test 'each_input' do
-    pipeline = EachElement.new([[1, 2], [3, 4]]) | EachInput.new 
-    result = []
-    while v = pipeline.run
-      result << v
-    end
-    assert_equal([1, 2, 3, 4], result)
-  end
-  
   test 'resume' do
-    pipeline = EachElement.new(%w(foo bar)) | Restrict.new | EachInput.new{ |x| x.chars} | Resume.new
+    pipeline = Each.new(%w(foo bar)) | Restrict.new | Each.new{ |x| x.chars} | Resume.new
     result = []
     while v = pipeline.run
       result << v
@@ -73,14 +64,14 @@ class TestStages < MiniTest::Unit::TestCase
   
   test 'resume with count' do
     resume = ResumeCount.new
-    pipeline = EachElement.new(%w(foo bar)) | Restrict.new | EachInput.new{ |x| x.chars} | Map.new{ |x| x.to_sym } | resume
+    pipeline = Each.new(%w(foo bar)) | Restrict.new | Each.new{ |x| x.chars} | Map.new{ |x| x.to_sym } | resume
     result = pipeline.run
     assert_equal({ 'foo' => { :f => 1, :o => 2}}, result)
   end
   
   test 'substage instead of resume' do
-    sub = EachInput.new{ |x| x.chars } | Map.new{ |x| x.to_sym} | Count.new
-    pipeline = EachElement.new(%w(foo bar)) | SubStage.new(sub)
+    sub = Each.new{ |x| x.chars } | Map.new{ |x| x.to_sym} | Count.new
+    pipeline = Each.new(%w(foo bar)) | SubStage.new(sub)
     result = pipeline.run
     assert_equal({ :f => 1, :o => 2}, result)
     result = pipeline.run
@@ -88,8 +79,8 @@ class TestStages < MiniTest::Unit::TestCase
   end
   
   test 'substage with key and result' do
-    sub = EachInput.new{ |x| x.chars } | Map.new{ |x| x.to_sym} | Count.new
-    pipeline = EachElement.new(%w(foo bar)) | SubStageWithValue.new(sub)
+    sub = Each.new{ |x| x.chars } | Map.new{ |x| x.to_sym} | Count.new
+    pipeline = Each.new(%w(foo bar)) | SubStageWithValue.new(sub)
     result = pipeline.run
     assert_equal({'foo' => { :f => 1, :o => 2}}, result)
     result = pipeline.run

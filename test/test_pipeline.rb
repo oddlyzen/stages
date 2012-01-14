@@ -36,7 +36,7 @@ class TestPipeline < MiniTest::Unit::TestCase
   end   
        
   test 'nil kills it' do
-    pipeline = EachElement.new([1, 2, nil, 3])
+    pipeline = Each.new([1, 2, nil, 3])
     result = []
     while v = pipeline.run
       result << v
