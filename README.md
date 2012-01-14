@@ -8,10 +8,15 @@ Initial code stolen shamelessly from http://pragdave.blogs.pragprog.com/pragdave
 Usage
 -----
 
-You knit your stages together with '|'.  The leftmost pipeline stage will be contain a generator, which usually is an infinite loop.  For ean example, look at evens.rb in our sample stages collection.  If you wanted to output, for example, every even number divisible by 3, you might do:
+You knit your stages together with '|'.  The leftmost pipeline stage will contain a generator, which usually is an infinite loop.  
+
+Example
+-------
+
+Image you wanted to output every even number divisible by 3.  First you would need a class that would output even numbers.  Then you would want to select the ones that are divisible by 3.  A simple implementation using stages would like this
 
 ```ruby
-pipeline = Evens.new | MultiplesOf.new(3)
+pipeline = Evens.new | Select.new{ |x| x % 3 == 0}
 loop { puts pipeline.run }
 ```
 

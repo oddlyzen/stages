@@ -5,6 +5,8 @@ require 'stages'
 require 'turn'
 require 'minitest/unit'
 
+require "#{File.dirname(__FILE__)}/../examples/evens"
+
 class MiniTest::Unit::TestCase
   def self.test(name, &block)
     define_method 'test_' + name, &block
