@@ -12,14 +12,34 @@ include Stages
     :la => 'a note to follow so',
     :ti => 'a drink with jam and bread'}
 
-def setup_pipeline
-  get_lyric = Map.new{ |x| @lyrics[x]}
+class Lyrics < Stage
+  attr_accessor :lyrics
+  def handle_value(value)
+    output @lyrics[value]
+  end
+end
+
+class Generator < Stage
+  def initialize(things)
+    @things = things
+    super()
+  end
   
+  def process
+    @things.each do |t|
+      output t
+    end
+  end
+end
+
+def setup_pipeline
+  get_lyric = Lyrics.new
+  get_lyric.lyrics = @lyrics
   
   each_character = Each.new{ |x| x.chars }
   trim_whitespace = Select.new{ |x| x != ' '}
   letters_in_each_line = SubStage.new(get_lyric | each_character | trim_whitespace)
-  each_note = Each.new @lyrics.keys
+  each_note = Generator.new(@lyrics.keys)
   count_everything = Count.new
   
   each_note | letters_in_each_line | count_everything
