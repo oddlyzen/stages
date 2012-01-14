@@ -5,8 +5,8 @@ class TestPipeline < MiniTest::Unit::TestCase
   
   test 'simple basic pipeline' do
     evens = Evens.new
-    mx3 = MultiplesOf.new(3)
-    mx7 = MultiplesOf.new(7) 
+    mx3 = Select.new{ |x| x % 3 == 0}
+    mx7 = Select.new{ |x| x % 7 == 0}
     mx3.source = evens 
     mx7.source = mx3
     
@@ -15,7 +15,7 @@ class TestPipeline < MiniTest::Unit::TestCase
   end
   
   test 'pipeline pipe syntax works' do
-    pipeline = Evens.new | MultiplesOf.new(3) | MultiplesOf.new(7)
+    pipeline = Evens.new | Select.new{ |x| x % 3 == 0} | Select.new{ |x| x % 7 == 0}
     result = (0..2).map{ pipeline.run }
     assert_equal([0, 42, 84], result)
   end

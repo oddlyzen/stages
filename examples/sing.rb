@@ -16,7 +16,7 @@ end
 def setup_pipeline
   generator = Each.new sing.keys
   loop = Restrict.new
-  get_lyric = HashLookup.new sing
+  get_lyric = Map.new{ |x| sing[x]}
   each_character = Each.new{ |x| x.chars }
   whitespace = Select.new{ |x| x != ' '}
   pool = ResumeCount.new

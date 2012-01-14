@@ -22,7 +22,7 @@ class TestStages < MiniTest::Unit::TestCase
   end
   
   test 'multiples_of' do
-    pipeline = Evens.new | MultiplesOf.new(3)
+    pipeline = Evens.new | Select.new{ |x| x % 3 == 0}
     result = (0..3).map{ pipeline.run }
     assert_equal([0, 6, 12, 18], result)
   end
@@ -34,7 +34,7 @@ class TestStages < MiniTest::Unit::TestCase
   end
   
   test 'hash_lookup' do
-    pipeline = Each.new([:do, :re, :mi]) | HashLookup.new(sing)
+    pipeline = Each.new([:do, :re, :mi]) | Map.new{ |x| sing[x]}
     result = (0..2).map { pipeline.run }
     assert_equal(['doe a deer a female deer', 'ray a drop of golden sun', 'me a name I call myself'], result)
   end   
@@ -71,7 +71,7 @@ class TestStages < MiniTest::Unit::TestCase
   
   test 'substage instead of resume' do
     sub = Each.new{ |x| x.chars } | Map.new{ |x| x.to_sym} | Count.new
-    pipeline = Each.new(%w(foo bar)) | SubStage.new(sub)
+    pipeline = Each.new(%w(foo bar)) | SubStage.new(sub).with_hash | Map.new{ |x| x.values.first}
     result = pipeline.run
     assert_equal({ :f => 1, :o => 2}, result)
     result = pipeline.run
@@ -80,7 +80,7 @@ class TestStages < MiniTest::Unit::TestCase
   
   test 'substage with key and result' do
     sub = Each.new{ |x| x.chars } | Map.new{ |x| x.to_sym} | Count.new
-    pipeline = Each.new(%w(foo bar)) | SubStageWithValue.new(sub)
+    pipeline = Each.new(%w(foo bar)) | SubStage.new(sub).with_hash
     result = pipeline.run
     assert_equal({'foo' => { :f => 1, :o => 2}}, result)
     result = pipeline.run
