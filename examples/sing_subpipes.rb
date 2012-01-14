@@ -21,11 +21,21 @@ def setup_pipeline
   letters_in_each_line = SubStage.new(get_lyric | each_character | trim_whitespace)
   each_note = Each.new @lyrics.keys
   count_everything = Count.new
+  each_letter = Each.new
   
-  each_note | letters_in_each_line | count_everything
+  
+  each_note | letters_in_each_line | each_letter | count_everything
 end
 
 puts setup_pipeline.run.inspect
 
+puts "one line at a time"
+lyrics = Each.new(@lyrics.keys)
+letters_in_chunks = SubStage.new(Map.new{ |x| @lyrics[x]} | Each.new{ |x| x.chars}).with_hash
+each_letter = Each.new{ |x| x.values.first }
+count = Count.new
 
+p2 = lyrics | letters_in_chunks | each_letter | count
+
+puts p2.run.inspect
 

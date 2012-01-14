@@ -71,7 +71,7 @@ class TestStages < MiniTest::Unit::TestCase
   
   test 'substage instead of resume' do
     sub = Each.new{ |x| x.chars } | Map.new{ |x| x.to_sym} | Count.new
-    pipeline = Each.new(%w(foo bar)) | SubStage.new(sub).with_hash | Map.new{ |x| x.values.first}
+    pipeline = Each.new(%w(foo bar)) | SubStage.new(sub).with_hash | Each.new{ |x| x.values.first}
     result = pipeline.run
     assert_equal({ :f => 1, :o => 2}, result)
     result = pipeline.run
@@ -80,7 +80,7 @@ class TestStages < MiniTest::Unit::TestCase
   
   test 'substage with key and result' do
     sub = Each.new{ |x| x.chars } | Map.new{ |x| x.to_sym} | Count.new
-    pipeline = Each.new(%w(foo bar)) | SubStage.new(sub).with_hash
+    pipeline = Each.new(%w(foo bar)) | SubStage.new(sub).with_hash | Map.new{ |x| { x.keys.first => x.values.first.first}}
     result = pipeline.run
     assert_equal({'foo' => { :f => 1, :o => 2}}, result)
     result = pipeline.run

@@ -15,10 +15,12 @@ module Stages
     def process
       while value = input
         subpipe = Emit.new(value) | @pipeline
+        results = []
         while v = subpipe.run
-          v = { value => v} if @with_hash
-          output v
+          results << v
         end
+        results = { value => results} if @with_hash
+        output results
         @pipeline.drop_leftmost!
         @pipeline.continue
       end
