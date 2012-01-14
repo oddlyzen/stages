@@ -16,16 +16,13 @@ end
 def setup_pipeline
   get_lyric = HashLookup.new sing
   each_character = EachInput.new{ |x| x.chars }
-  whitespace = Select.new{ |x| x != ' '}
-  sub_pipeline = get_lyric | each_character | whitespace 
-  process_elements = SubStage.new(sub_pipeline)
+  trim_whitespace = Select.new{ |x| x != ' '}
+  count_letters_in_line = SubStage.new(get_lyric | each_character | trim_whitespace)
   
-  generator = EachElement.new sing.keys
-  subtotals = Map.new { |x| x.values.first }
-  iterator = EachInput.new
-  count = Count.new
+  each_note = EachElement.new sing.keys
+  count_everything = Count.new
   
-  generator | process_elements | subtotals | iterator | count
+  each_note | count_letters_in_line | count_everything
 end
 
 puts setup_pipeline.run.inspect

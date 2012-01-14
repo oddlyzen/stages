@@ -2,19 +2,19 @@ module Stages
   class SubStage < Stage    
     def initialize(pipeline)
       @pipeline = pipeline
+      @cache = []
       super()
     end
     
-    def handle_value(value)
-      results = []
-      subpipe = (EachElement.new([value]) | @pipeline)
-      while v = subpipe.run
-        results << v
+    def process
+      while value = input
+        subpipe = Emit.new(value) | @pipeline
+        while v = subpipe.run
+          output v
+        end
+        @pipeline.drop_leftmost!
+        @pipeline.continue
       end
-      @pipeline.drop_leftmost!
-      @pipeline.continue
-      results = results.first if results.length == 1
-      output ({ value => results })
     end
   end  
 end
