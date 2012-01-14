@@ -2,6 +2,7 @@ require "#{File.dirname(__FILE__)}/../lib/stages"
 
 include Stages
 
+#count the occurance of each letter in these song lyrics
 def sing
   { :do => 'doe a deer a female deer',
     :re => 'ray a drop of golden sun',
