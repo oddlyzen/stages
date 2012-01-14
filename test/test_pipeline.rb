@@ -43,14 +43,5 @@ class TestPipeline < MiniTest::Unit::TestCase
     end
     assert_equal([1, 2], result)    
   end  
-  
-  def sing
-    { :do => 'doe a deer a female deer',
-      :re => 'ray a drop of golden sun',
-      :mi => 'me a name I call myself',
-      :fa => 'far a long long way to run',
-      :so => 'A needle pulling thread',
-      :la => 'a note to follow so',
-      :ti => 'a drink with jam and bread'}
-  end
+
 end

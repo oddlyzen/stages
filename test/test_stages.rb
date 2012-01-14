@@ -71,6 +71,21 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal([{ 'foo' => %w(f o o)}, {'bar' => %w(b a r)}], result)
   end
   
+  test 'resume with count' do
+    resume = ResumeCount.new
+    pipeline = EachElement.new(%w(foo bar)) | Restrict.new | EachInput.new{ |x| x.chars} | Map.new{ |x| x.to_sym } | resume
+    result = pipeline.run
+    assert_equal({ 'foo' => { :f => 1, :o => 2}}, result)
+  end
+  
+  test 'complex restrict' do
+    gen = EachElement.new([{ :a => 1}, { :a => 2}])
+    pipeline = gen | EachInput.new | Map.new{ |x| puts "x: #{x}"; x}| Restrict.new | Map.new{ |x| puts x; x} | Resume.new
+    while pipeline.run
+      puts 'end'
+    end
+  end
+  
   def sing
     { :do => 'doe a deer a female deer',
       :re => 'ray a drop of golden sun',
