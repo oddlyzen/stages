@@ -54,8 +54,11 @@ class TestPipeline < MiniTest::Unit::TestCase
   end
   
   test 'reset! resets everything' do
-    assert false
-    #todo
+    pipeline = Each.new([1, 2, 3])
+    assert_equal(1, pipeline.run)
+    pipeline.reset!
+    assert_equal(1, pipeline.run)
+    assert_equal(2, pipeline.run)
   end
 
 end

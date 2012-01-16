@@ -1,13 +1,12 @@
 module Stages
   class Restrict < Stage
-    alias :super_continue :continue
     
     def initialize
       @open = true
       super()
     end
     
-    def continue
+    def reset
       @open = true
       r = @last_value
       @last_value = nil

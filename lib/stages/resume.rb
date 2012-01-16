@@ -5,7 +5,7 @@ module Stages
       while v = source.run
         result << v
       end
-      continued = @source.continue
+      continued = @source.reset
       if continued.nil?
         nil
       else

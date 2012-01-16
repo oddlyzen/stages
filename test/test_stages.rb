@@ -46,7 +46,7 @@ class TestStages < MiniTest::Unit::TestCase
       result << v
     end
     assert_equal([0], result)
-    pipeline.continue
+    pipeline.reset
     while v = pipeline.run
       result << v
     end

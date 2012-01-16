@@ -27,7 +27,7 @@ module Stages
         output results if @output_style == :array
         output({ value => results}) if @output_style == :hash
         @pipeline.drop_leftmost!
-        @pipeline.continue
+        @pipeline.reset!
       end
     end
   end  
