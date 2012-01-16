@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "stages"
-  s.version = "0.1.2"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["The Justice Eight"]
-  s.date = "2012-01-14"
+  s.date = "2012-01-16"
   s.description = "pipeline builder"
   s.email = "support@igodigital.com"
   s.extra_rdoc_files = [
@@ -30,13 +30,12 @@ Gem::Specification.new do |s|
     "lib/stages/count.rb",
     "lib/stages/each.rb",
     "lib/stages/emit.rb",
-    "lib/stages/evens.rb",
     "lib/stages/map.rb",
     "lib/stages/restrict.rb",
     "lib/stages/resume.rb",
     "lib/stages/resume_count.rb",
     "lib/stages/select.rb",
-    "lib/stages/sub_stage.rb",
+    "lib/stages/wrap.rb",
     "stages.gemspec",
     "test/helper.rb",
     "test/test_pipeline.rb",
