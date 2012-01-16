@@ -5,7 +5,17 @@ require 'stages'
 require 'turn'
 require 'minitest/unit'
 
-require "#{File.dirname(__FILE__)}/../examples/evens"
+module Stages
+  class Evens < Stage
+    def process 
+      value = 0
+      loop do
+        output(value)
+        value += 2
+      end
+    end
+  end
+end
 
 class MiniTest::Unit::TestCase
   def self.test(name, &block)
