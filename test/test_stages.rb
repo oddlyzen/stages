@@ -93,6 +93,15 @@ class TestStages < MiniTest::Unit::TestCase
     end    
   end
   
+  test 'unique' do
+    pipeline = Each.new('abcadefbega'){ |x| x.chars} | Unique.new
+    results = []
+    while r = pipeline.run
+      results << r
+    end
+    assert_equal(%w(a b c d e f g), results)
+  end
+  
   def sing
     { :do => 'doe a deer a female deer',
       :re => 'ray a drop of golden sun',
