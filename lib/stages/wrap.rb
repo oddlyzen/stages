@@ -3,12 +3,17 @@ module Stages
     def initialize(pipeline)
       @pipeline = pipeline
       @cache = []
-      @with_hash = false
+      @output_style = :hash
       super()
     end
     
-    def with_hash
-      @with_hash = true
+    def array
+      @output_style = :array
+      self
+    end
+    
+    def each
+      @output_style = :each
       self
     end
     
@@ -17,10 +22,10 @@ module Stages
         subpipe = Emit.new(value) | @pipeline
         results = []
         while v = subpipe.run
-          results << v
-        end
-        results = { value => results} if @with_hash
-        output results
+          @output_style == :each ? output(v) : results << v
+        end        
+        output results if @output_style == :array
+        output({ value => results}) if @output_style == :hash
         @pipeline.drop_leftmost!
         @pipeline.continue
       end

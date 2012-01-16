@@ -42,6 +42,20 @@ class TestPipeline < MiniTest::Unit::TestCase
       result << v
     end
     assert_equal([1, 2], result)    
-  end  
+  end    
+  
+  test 'complex substage hash example' do
+    sub = Each.new{ |x| x.chars } | Map.new{ |x| x.to_sym} | Count.new
+    pipeline = Each.new(%w(foo bar)) | Wrap.new(sub) | Map.new{ |x| { x.keys.first => x.values.first.first}}
+    result = pipeline.run
+    assert_equal({'foo' => { :f => 1, :o => 2}}, result)
+    result = pipeline.run
+    assert_equal({ 'bar' => { :b => 1, :a => 1, :r => 1}}, result)
+  end
+  
+  test 'reset! resets everything' do
+    assert false
+    #todo
+  end
 
 end

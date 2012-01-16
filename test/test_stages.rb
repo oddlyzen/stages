@@ -69,22 +69,28 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal({ 'foo' => { :f => 1, :o => 2}}, result)
   end
   
-  test 'wrap instead of resume' do
-    sub = Each.new{ |x| x.chars } | Map.new{ |x| x.to_sym} | Count.new
-    pipeline = Each.new(%w(foo bar)) | Wrap.new(sub).with_hash | Each.new{ |x| x.values.first}
+  test 'hash mode wrap' do
+    pipeline = Each.new(%w(foo bar)) | Wrap.new(Each.new{ |x| x.chars})
     result = pipeline.run
-    assert_equal({ :f => 1, :o => 2}, result)
+    assert_equal(%w(f o o), result['foo'])
     result = pipeline.run
-    assert_equal({ :b => 1, :a => 1, :r => 1}, result)
+    assert_equal(%w(b a r), result['bar'])
   end
   
-  test 'substage with key and result' do
-    sub = Each.new{ |x| x.chars } | Map.new{ |x| x.to_sym} | Count.new
-    pipeline = Each.new(%w(foo bar)) | Wrap.new(sub).with_hash | Map.new{ |x| { x.keys.first => x.values.first.first}}
+  test 'array mode wrap' do
+    pipeline = Each.new(%w(foo bar)) | Wrap.new(Each.new{ |x| x.chars}).array
     result = pipeline.run
-    assert_equal({'foo' => { :f => 1, :o => 2}}, result)
+    assert_equal(%w(f o o), result)
     result = pipeline.run
-    assert_equal({ 'bar' => { :b => 1, :a => 1, :r => 1}}, result)
+    assert_equal(%w(b a r), result)
+  end
+  
+  test 'each mode wrap' do
+    pipeline = Each.new(%w(foo bar)) | Wrap.new(Each.new{ |x| x.chars}).each
+    expected = %w(r a b o o f)
+    while r = pipeline.run
+      assert_equal(expected.pop, r)
+    end    
   end
   
   def sing
