@@ -38,7 +38,7 @@ def setup_pipeline
   
   each_character = Each.new{ |x| x.chars }
   trim_whitespace = Select.new{ |x| x != ' '}
-  letters_in_each_line = SubStage.new(get_lyric | each_character | trim_whitespace)
+  letters_in_each_line = Wrap.new(get_lyric | each_character | trim_whitespace)
   each_letter = Each.new
   each_note = Generator.new(@lyrics.keys)
   count_everything = Count.new

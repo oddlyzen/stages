@@ -1,5 +1,5 @@
 module Stages
-  class SubStage < Stage    
+  class Wrap < Stage    
     def initialize(pipeline)
       @pipeline = pipeline
       @cache = []

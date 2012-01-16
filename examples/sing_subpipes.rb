@@ -18,7 +18,7 @@ def setup_pipeline
   
   each_character = Each.new{ |x| x.chars }
   trim_whitespace = Select.new{ |x| x != ' '}
-  letters_in_each_line = SubStage.new(get_lyric | each_character | trim_whitespace)
+  letters_in_each_line = Wrap.new(get_lyric | each_character | trim_whitespace)
   each_note = Each.new @lyrics.keys
   count_everything = Count.new
   each_letter = Each.new
@@ -31,7 +31,7 @@ puts setup_pipeline.run.inspect
 
 puts "one line at a time"
 lyrics = Each.new(@lyrics.keys)
-letters_in_chunks = SubStage.new(Map.new{ |x| @lyrics[x]} | Each.new{ |x| x.chars}).with_hash
+letters_in_chunks = Wrap.new(Map.new{ |x| @lyrics[x]} | Each.new{ |x| x.chars}).with_hash
 each_letter = Each.new{ |x| x.values.first }
 count = Count.new
 
