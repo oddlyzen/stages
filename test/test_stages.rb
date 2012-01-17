@@ -77,6 +77,15 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal(%w(b a r), result['bar'])
   end
   
+  test 'hash/aggregated wrap mode wrap' do
+    pipeline = Each.new(%w(foo bar)) | Wrap.new(Each.new{ |x| x.chars} | Count.new).aggregated
+    result = pipeline.run
+    assert_equal(2, result['foo']['o'])
+    result = pipeline.run
+    assert_equal(3, result['bar'].keys.length)
+  end
+  
+  
   test 'array mode wrap' do
     pipeline = Each.new(%w(foo bar)) | Wrap.new(Each.new{ |x| x.chars}).array
     result = pipeline.run
