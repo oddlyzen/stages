@@ -31,7 +31,7 @@ puts setup_pipeline.run.inspect
 
 puts "one line at a time"
 lyrics = Each.new(@lyrics.keys)
-letters_in_chunks = Wrap.new(Map.new{ |x| @lyrics[x]} | Each.new{ |x| x.chars}).with_hash
+letters_in_chunks = Wrap.new(Map.new{ |x| @lyrics[x]} | Each.new{ |x| x.chars})
 each_letter = Each.new{ |x| x.values.first }
 count = Count.new
 

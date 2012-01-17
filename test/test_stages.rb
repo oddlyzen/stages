@@ -78,7 +78,7 @@ class TestStages < MiniTest::Unit::TestCase
   end
   
   test 'hash/aggregated wrap mode wrap' do
-    pipeline = Each.new(%w(foo bar)) | Wrap.new(Each.new{ |x| x.chars} | Count.new).aggregated
+    pipeline = Each.new(%w(foo bar)) | Wrap.new(Each.new{ |x| x.chars} | Count.new, :aggregated)
     result = pipeline.run
     assert_equal(2, result['foo']['o'])
     result = pipeline.run
@@ -87,7 +87,7 @@ class TestStages < MiniTest::Unit::TestCase
   
   
   test 'array mode wrap' do
-    pipeline = Each.new(%w(foo bar)) | Wrap.new(Each.new{ |x| x.chars}).array
+    pipeline = Each.new(%w(foo bar)) | Wrap.new(Each.new{ |x| x.chars}, :array)
     result = pipeline.run
     assert_equal(%w(f o o), result)
     result = pipeline.run
@@ -95,7 +95,7 @@ class TestStages < MiniTest::Unit::TestCase
   end
   
   test 'each mode wrap' do
-    pipeline = Each.new(%w(foo bar)) | Wrap.new(Each.new{ |x| x.chars}).each
+    pipeline = Each.new(%w(foo bar)) | Wrap.new(Each.new{ |x| x.chars}, :each)
     expected = %w(r a b o o f)
     while r = pipeline.run
       assert_equal(expected.pop, r)
