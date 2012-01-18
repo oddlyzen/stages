@@ -111,6 +111,11 @@ class TestStages < MiniTest::Unit::TestCase
     assert_equal(%w(a b c d e f g), results)
   end
   
+  test 'exhaust' do
+    pipeline = Each.new(%w(foo bar zut)) | Exhaust.new
+    assert_equal(%w(foo bar zut), pipeline.run)
+  end
+  
   def sing
     { :do => 'doe a deer a female deer',
       :re => 'ray a drop of golden sun',
