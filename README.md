@@ -5,6 +5,8 @@ A gem for creating data pipelines out of tiny, reusable objects
 
 Initial code stolen shamelessly from http://pragdave.blogs.pragprog.com/pragdave/2008/01/pipelines-using.html
 
+Announcement blog post is at http://blog.igodigital.com/blog/on-recommendations/the-stages-gem
+
 Usage
 -----
 
